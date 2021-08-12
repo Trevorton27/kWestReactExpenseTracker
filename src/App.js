@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import './App.css';
 import { expenseData } from "./expense-data";
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.min.js';
 
 const App = () => {
   const [expenses, setExpenses] = useState(expenseData);
@@ -34,9 +36,14 @@ const App = () => {
       description: addFormData.description,
       amount: addFormData.amount,
     };
-
+    
     const newExpenses = [...expenses, newExpense];
     setExpenses(newExpenses)
+    resetForm();
+  }
+
+  const resetForm = () => { 
+    document.getElementById("expense-form").reset();
   }
 
   const handleDeleteClick = (expenseID) => {
@@ -50,9 +57,11 @@ const App = () => {
   }
   
   return (
-    <div className="app-container">
-     <h2> Add an Expense</h2>
-     <form onSubmit={handleAddFormSubmit}>
+    <div className="container text-center">
+      <h1>Expense Tracker</h1>
+      <br></br>
+     <h3> Add an Expense</h3>
+     <form id="expense-form" onSubmit={handleAddFormSubmit}>
        <input
        type="date"
        name="date"
@@ -84,8 +93,8 @@ const App = () => {
        />
       <button type="submit">Add Expense</button>
      </form>
-     <table>
-        <thead>
+     <table class="table table-bordered table-hover">
+        <thead className="thead">
             <th>Date</th>
             <th>Location</th>
             <th>Description</th>
@@ -99,7 +108,7 @@ const App = () => {
               <td>{expense.location}</td>
               <td>{expense.description}</td>
               <td>{expense.amount}</td>
-              <td></td>
+              <td><button type="button" onClick={() => handleDeleteClick(expense.id)}>Delete</button></td>
             </tr>
           ))}
         </tbody>
